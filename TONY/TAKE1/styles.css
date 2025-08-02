@@ -1,0 +1,101 @@
+html, body {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    background-color: #020c24;
+    color: aliceblue;
+}
+
+#container {
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+    height: 95vh;
+    max-width: 800px;
+    padding: 20px;
+    background: linear-gradient(
+        to bottom, 
+        rgba(0, 4, 18, 1), 
+        rgba(5, 37, 84, 1), 
+        rgba(0, 4, 18, 1)
+    );
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin: 0px;
+    overflow: auto;
+}
+
+#container::-webkit-scrollbar {
+    display: none;
+}
+
+#header, #content, #footer {
+    flex: 1;
+    margin-bottom: 20px; /* Add margin between sections */
+}
+
+#header {
+    /* background-color: #f5f5f5; */
+    padding: 20px;
+    text-align: center;
+    flex-basis: 10%;
+}
+
+#header img {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 10px;
+    border-radius: 50%;
+    filter: drop-shadow(0 0 5px #000);
+}
+
+#header #name {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+#header #desc {
+    font-size: 16px;
+}
+
+#footer {
+    /* background-color: #f5f5f5; */
+    padding: 20px;
+    text-align: center;
+    flex-basis: 10%;
+}
+
+#content {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 80%;
+}
+
+#card {
+    /* background-color: #fff; */
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+#input, #send {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color:transparent;
+    color: aliceblue;
+    border: solid;
+}
+
+#input {
+    margin-bottom: 10px;
+}
+
+

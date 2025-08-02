@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Information</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <div id="container">
+        <div id ="gradient-overlay"></div>
+        <div id="header">
+            <img src="Screenshot 2024-05-23 203735.png" alt="Logo">
+            <p id="name">Tony</p>
+            <p id="desc">Hotel specialist Tony, your travel buddy!</p>
+        </div>
+        <div id="content">
+            <div id="card">
+                <p id="card-content">
+                    "Welcome to our hotel booking service! 🌟 I'm Tony here to assist you in finding the perfect accommodation for your stay. Before we proceed, could you please provide me with the name of the hotel you're interested in?
+
+                    Just so you know, I can provide you with a comprehensive overview of the hotel you're interested in. This includes an overall rating out of 10, as well as separate ratings for various aspects such as staff friendliness, food quality, room comfort, spa facilities, environment ambiance, and Wi-Fi connectivity. So, feel free to let me know the name of the hotel you have in mind, and I'll be happy to furnish you with all the details you need!"
+                </p>
+            </div>
+        </div>
+        <div id="footer">
+            <div id="input-container">
+                <input id="input" type="text" placeholder="Enter the name of the hotel:">
+                <button id="send" onclick="update()">Send</button>
+            </div>
+        </div>
+        
+    </div>
+</div>
+    <script>
+        async function update() {
+            const input = document.getElementById("input").value;
+            const cardContent = document.getElementById("card-content");
+
+            if (!input) {
+                cardContent.innerHTML = "Enter the hotel name";
+                return;
+            }
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/hotel_name/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name: input })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const result = await response.json();
+                console.log('API Response:', result);
+
+                if (Array.isArray(result) && result.length > 0) {
+                    // Handle the case where the result is an array of hotel data
+                    const data = result[0];
+                    const newCardContent = `
+                        <h2>${data.Hotel_name}</h2>
+                        <p>Overall Rating: ${data.overall}</p>
+                        <p>Staff Rating: ${data.staff}</p>
+                        <p>Food Rating: ${data.food}</p>
+                        <p>Room Rating: ${data.room}</p>
+                        <p>Spa Rating: ${data.spa}</p>
+                        <p>Environment Rating: ${data.env}</p>
+                        <p>Wifi Rating: ${data.wifi}</p>
+                    `;
+                    cardContent.innerHTML = newCardContent;
+                } else if (typeof result === 'object') {
+                    // Handle the case where the result is an object mapping numbers to hotel names
+                    let newCardContent = "<p>These are the similar available hotels: Choose from below.</p>";
+                    for (const key in result) {
+                        if (result.hasOwnProperty(key)) {
+                            newCardContent += `<p>${key}: ${result[key]}</p>`;
+                        }
+                    }
+                    cardContent.innerHTML = newCardContent;
+                } else {
+                    cardContent.innerHTML = "No matching hotel found.";
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to fetch hotel data.');
+            }
+        }
+    </script>
+</body>
+</html>
+
